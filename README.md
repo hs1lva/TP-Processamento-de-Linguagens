@@ -1,8 +1,12 @@
 Ficha de trabalho nº1 – Introdução ao Python 
+
 Todos os exercícios devem ser desenvolvidos em scripts individuais e devem 
 considerar as boas práticas abordadas em aula: 
+
 • Usar tipos de variáveis 
+
 • Comentar o código quando necessário 
+
 1) Criar uma estrutura em Python para guardar as vossas notas das UCS do 
 semestre passado. 
 a. Calcular a média e mostrar na consola o resultado 
