@@ -1,6 +1,0 @@
-AMS: 10
-POO: 11
-AAD: 12
-Fisica: 13
-PES: 14
-Média: 12.0
