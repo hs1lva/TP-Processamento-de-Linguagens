@@ -57,7 +57,7 @@ def main():
     if args.graphviz:
         grafo = gerar_grafo(automato)
         print(grafo.source)  # Imprime a representação do grafo em formato DOT
-        grafo.render('automato', view=True)  # Guarda e mostra o grafo em formato PNG
+        grafo.render('automatoAFD', view=True)  # Guarda e mostra o grafo em formato PNG
 
     if args.rec:
         reconhecido, caminho, erro = reconhecer_palavra(automato, args.rec)
@@ -70,3 +70,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# Terminal ----> python3 1-AFD.py automato.json -graphviz (criar grafo png)
+# Terminal ----> python3 1-AFD.py automato.json -rec 101 (reconhecer palavra)
