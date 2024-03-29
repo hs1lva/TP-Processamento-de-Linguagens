@@ -1,6 +1,7 @@
 {
     "configurations": [
 
+
         {
             "name": "PL TP1 Grafo",
             "type": "debugpy",
@@ -23,6 +24,12 @@
             "request": "launch",
             "program": "${file}",
             "args": "automato.json -rec 'aab'"
+        },
+        {
+            "name": "PL TP1",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}"
         }
     ]
 }
