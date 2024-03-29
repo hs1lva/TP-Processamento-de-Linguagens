@@ -1,21 +1,61 @@
+# AFD - Autómato Finito Determinístico
+
 import json
 import argparse
 import graphviz
+from graphviz import Digraph
+import os
 
 def carregar_automato(ficheiro_definicao : str) -> dict:
+    # Verifica se o ficheiro existe
+    diretorio_atual = os.getcwd()
+    caminho_completo = os.path.join(diretorio_atual, ficheiro_definicao)
+    
+    if not os.path.isfile(caminho_completo):
+        print(f"O ficheiro '{ficheiro_definicao}' não existe.")
+        exit()
+
     # Carrega o automato a partir do ficheiro JSON
-    with open(ficheiro_definicao, 'r') as ficheiro:
-        return json.load(ficheiro)
+    try:
+        with open(ficheiro_definicao, 'r') as ficheiro:
+            return json.load(ficheiro)
+    except Exception as e:
+        print(f"Erro ao carregar o automato.{e}")
+    
 
 def gerar_grafo(automato : dict) -> graphviz.Digraph:
+    # Verifica condições essenciais
+    if automato['q0'] == '':
+        print("O automato não tem estado inicial.")
+        exit()
+    if automato['F'] == '':
+        print("O automato não tem estado final.")
+        exit()
+    if automato['delta'] == '':
+        print("O automato não tem transições.")
+        exit()
+    
+    # Cria o grafo
     grafo : graphviz.Digraph = graphviz.Digraph(format='png')
 
-    # Adiciona os estados
-    for estado in automato['Q']:
-        if estado in automato['F']:
-            grafo.node(estado, shape='doublecircle')
-        else:
-            grafo.node(estado)
+
+    # Cria estados, caso não existam
+    if automato['Q'] == '':
+        grafo.node('start', shape='none', label='')
+        grafo.edge('start', automato['q0'], shape='none', label='')
+
+        for estado in automato['delta']:
+            if estado in automato['F']:
+                grafo.node(estado, shape='doublecircle')
+            else:
+                grafo.node(estado)
+    else:
+        # Adiciona os estados se já existirem
+        for estado in automato['Q']:
+            if estado in automato['F']:
+                grafo.node(estado, shape='doublecircle')
+            else:
+                grafo.node(estado)
 
     # Adiciona as transições
     for estado, trans in automato['delta'].items():
@@ -34,7 +74,6 @@ def reconhecer_palavra(automato : dict, palavra : str) -> tuple[bool, list, str 
             caminho.append(prox_estado)
             estado_atual = prox_estado
         except KeyError:
-            caminho.append(f"Não existe transição do estado {estado_atual} com o símbolo '{char}'.")
             return False, caminho, f"Não há transição do estado {estado_atual} com o símbolo '{char}'."
 
     if estado_atual in automato['F']:
@@ -50,8 +89,8 @@ def main():
                         help='Gerar a representação gráfica do grafo')
     parser.add_argument('-rec', metavar='palavra', type=str,
                         help='Reconhecer uma palavra')
-
-    args : argparse.Namespace = parser.parse_args()
+    
+    args = parser.parse_args()
 
     automato : dict = carregar_automato(args.ficheiro_json)
 
@@ -70,6 +109,7 @@ def main():
             print("Caminho percorrido:", ' -> '.join(caminho))
         else:
             print(f"A palavra '{args.rec}' não é reconhecida.")
+            print("Caminho percorrido:", ' -> '.join(caminho))
             print("Situação de erro:", erro)
 
 if __name__ == "__main__":

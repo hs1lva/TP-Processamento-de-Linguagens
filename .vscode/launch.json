@@ -1,0 +1,28 @@
+{
+    "configurations": [
+
+        {
+            "name": "PL TP1 Grafo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "args": "automato.json -graphviz"
+        },
+
+        {
+            "name": "PL TP1 escrever args",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "args": "${command:pickArgs}"
+        },
+        
+        {
+            "name": "PL TP1 reconhecedor",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "args": "automato.json -rec 'aab'"
+        }
+    ]
+}
