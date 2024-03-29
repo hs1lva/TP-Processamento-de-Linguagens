@@ -2,13 +2,13 @@ import json
 import argparse
 import graphviz
 
-def carregar_automato(ficheiro_definicao):
+def carregar_automato(ficheiro_definicao : str) -> dict:
     # Carrega o automato a partir do ficheiro JSON
     with open(ficheiro_definicao, 'r') as ficheiro:
         return json.load(ficheiro)
 
-def gerar_grafo(automato):
-    grafo = graphviz.Digraph(format='png')
+def gerar_grafo(automato : dict) -> graphviz.Digraph:
+    grafo : graphviz.Digraph = graphviz.Digraph(format='png')
 
     # Adiciona os estados
     for estado in automato['Q']:
@@ -24,16 +24,17 @@ def gerar_grafo(automato):
 
     return grafo
 
-def reconhecer_palavra(automato, palavra):
-    estado_atual = automato['q0']
-    caminho = [estado_atual]
+def reconhecer_palavra(automato : dict, palavra : str) -> tuple[bool, list, str | None]:
+    estado_atual : str = automato['q0']
+    caminho : list = [estado_atual]
 
     for char in palavra:
         try:
-            prox_estado = automato['delta'][estado_atual][char]
+            prox_estado : str = automato['delta'][estado_atual][char]
             caminho.append(prox_estado)
             estado_atual = prox_estado
         except KeyError:
+            caminho.append(f"Não existe transição do estado {estado_atual} com o símbolo '{char}'.")
             return False, caminho, f"Não há transição do estado {estado_atual} com o símbolo '{char}'."
 
     if estado_atual in automato['F']:
@@ -50,16 +51,19 @@ def main():
     parser.add_argument('-rec', metavar='palavra', type=str,
                         help='Reconhecer uma palavra')
 
-    args = parser.parse_args()
+    args : argparse.Namespace = parser.parse_args()
 
-    automato = carregar_automato(args.ficheiro_json)
+    automato : dict = carregar_automato(args.ficheiro_json)
 
     if args.graphviz:
-        grafo = gerar_grafo(automato)
+        grafo : graphviz.Digraph = gerar_grafo(automato)
         print(grafo.source)  # Imprime a representação do grafo em formato DOT
         grafo.render('automatoAFD', view=True)  # Guarda e mostra o grafo em formato PNG
 
     if args.rec:
+        reconhecido : bool
+        caminho : list
+        erro : str | None
         reconhecido, caminho, erro = reconhecer_palavra(automato, args.rec)
         if reconhecido:
             print(f"A palavra '{args.rec}' é reconhecida.")
