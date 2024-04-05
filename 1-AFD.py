@@ -71,6 +71,6 @@ def main():
 if __name__ == "__main__":
     main()
 
-
+# venv/scripts/activate
 # Terminal ----> python3 1-AFD.py automato.json -graphviz (criar grafo png)
 # Terminal ----> python3 1-AFD.py automato.json -rec 101 (reconhecer palavra)
