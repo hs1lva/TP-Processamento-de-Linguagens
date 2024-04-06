@@ -37,8 +37,14 @@ def validaAutomato(automato: dict) -> dict:
         automato['V'] = sorted(list(set(automato['V'])))
 
     if 'ε' in automato['V']:
-        #exit("O automato não é AFD")#verificar se paramos o programa ou se apenas avisamos o user
+        exit("O automato não é AFD, porque o simbolo 'ε' está em V.")#verificar se paramos o programa ou se apenas avisamos o user
         pass
+
+    # Verifica se existe mais do que 1 transicao para o mesmo simbolo
+    for transitions in automato['delta'].values():
+        for destinations in transitions.values():
+            if isinstance(destinations, list) and len(destinations) > 1:
+                exit("O automato é AFND, porque existe mais do que uma transição para o mesmo simbolo.")
 
     return automato
 
@@ -93,6 +99,7 @@ def main():
 
     if args.graphviz:
         grafo : graphviz.Digraph = gerar_grafo(automato)
+        #verificar se é necessario gerar um ficheiro txt com estes dados
         print(grafo.source)  # Imprime a representação do grafo em formato DOT
         grafo.render('automatoAFD', view=True)  # Guarda e mostra o grafo em formato PNG
 
