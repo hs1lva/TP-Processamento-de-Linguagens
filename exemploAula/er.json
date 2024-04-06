@@ -1,0 +1,14 @@
+{
+    "op": "alt",
+    "args": [
+      {"simb": "a"},
+      {
+        "op": "seq",
+        "args": [
+          {"simb": "a"},
+          {"op": "kle", "args": [{"simb": "b"}]}
+        ]
+      }
+    ]
+  }
+  
