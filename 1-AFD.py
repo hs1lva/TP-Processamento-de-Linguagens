@@ -6,6 +6,7 @@ def carregar_automato(ficheiro_definicao : str) -> dict:
     # Carrega o automato a partir do ficheiro JSON
     with open(ficheiro_definicao, 'r') as ficheiro:
         return json.load(ficheiro)
+    
 def validaAutomato(automato: dict) -> dict:
     # Verifica se é dicionario
     if not isinstance(automato, dict):
