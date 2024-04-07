@@ -1,0 +1,65 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Ficheiro automatoAFD.json com grafo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "/Users/pedroricardosilva/Desktop/TP_PL/TP-Processamento-de-Linguagens/automatoAFD.json -graphviz"
+        },
+        {
+            "name": "Ficheiro automato2.json com grafo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "/Users/pedroricardosilva/Desktop/TP_PL/TP-Processamento-de-Linguagens/automato2.json -graphviz"
+        },
+        {
+            "name": "Ficheiro automatoAula.json com grafo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "/Users/pedroricardosilva/Desktop/TP_PL/TP-Processamento-de-Linguagens/automatoAula.json -graphviz"
+        },
+        {
+            "name": "Ficheiro automatoAula.json com reconhecimento",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "/Users/pedroricardosilva/Desktop/TP_PL/TP-Processamento-de-Linguagens/automatoAula.json -rec aaabb"
+        },
+        {
+            "name": "Ficheiro automatoAFND.json com reconhecimento",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "/Users/pedroricardosilva/Desktop/TP_PL/TP-Processamento-de-Linguagens/automatoAFND.json -rec aaabb"
+        },
+        {
+            "name": "Converter automatoAFND.json ",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "/Users/pedroricardosilva/Desktop/TP_PL/TP-Processamento-de-Linguagens/automatoAFND.json -output afnd.json"
+        },
+        {
+            "name": "Python Debugger",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "${command:pickArgs}"
+        }
+    ]
+}
