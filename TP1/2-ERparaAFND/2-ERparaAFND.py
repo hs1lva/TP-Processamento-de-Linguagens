@@ -89,22 +89,22 @@ def converter_afnd(expressao_regular):
         "kle": kleene
     }
 
-    # Função recursiva para converter um nó da expressão regular num AFND
-    # Args : no (dict) : Um nó da expressão regular representado como um dicionário Python
+    # Função recursiva para converter um estado da expressão regular num AFND
+    # Args : estadoER (dict) : Um estado da expressão regular como um dicionário Python
     # Returns : dict : O AFND resultante do nó convertido
-    def converter_no(no):
+    def converter_estadoER(estadoER):
         
-        if "simb" in no:  # Se o nó representa um símbolo então...
+        if "simb" in estadoER:  # Se o nó representa um símbolo então...
 
             # Cria dois novos estados para representar a transição com o símbolo
             estado_inicial = criar_estado()
             estado_final = criar_estado()
 
             # Define a transição com o símbolo do estado inicial para o estado final
-            delta = {estado_inicial: {no["simb"]: [estado_final]}}
+            delta = {estado_inicial: {estadoER["simb"]: [estado_final]}}
             return {
                 "Q": [estado_inicial, estado_final],
-                "Sigma": {no["simb"]},
+                "Sigma": {estadoER["simb"]},
                 "delta": delta,
                 "q0": estado_inicial,
                 "F": [estado_final]
@@ -113,13 +113,13 @@ def converter_afnd(expressao_regular):
         else:  # Se o nó representa um operador (seq, alt ou kle) então...
 
             # Converte recursivamente os argumentos do operador para AFNDs
-            sub_afnds = [converter_no(arg) for arg in no["args"]]
+            sub_afnds = [converter_estadoER(arg) for arg in estadoER["args"]]
 
             # Aplica a operação correspondente ao operador aos AFNDs convertidos
-            return operadores[no["op"]](*sub_afnds)
+            return operadores[estadoER["op"]](*sub_afnds)
 
     # Converte a expressão regular num AFND
-    afnd = converter_no(expressao_regular)
+    afnd = converter_estadoER(expressao_regular)
 
     return afnd
 
