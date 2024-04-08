@@ -12,10 +12,10 @@ def validaAutomato(automato: dict) -> dict:
     if not isinstance(automato, dict):
         exit("O ficheiro JSON deve ser um dicionário.")
 
-
     # Verifica se automato tem estados finais
     if automato['F'] == '':
         exit("O automato não tem estados finais definidos.")
+
     #Verifica se estados finais existem no automato
     if not all(estado in automato['delta'].keys() for estado in automato['F']):
         exit("O automato não tem todos os estados finais definidos.")
@@ -53,6 +53,7 @@ def gerar_grafo(automato: dict) -> graphviz.Digraph:
 
     # Cria o grafo
     grafo: graphviz.Digraph = graphviz.Digraph(format='png')
+    
     # Adiciona os estados ao grafo
     for estado in automato['Q']:
         if estado in automato['F']:

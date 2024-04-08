@@ -1,25 +1,12 @@
 import json
 import argparse
 
-def ler_expressao_regular(ficheiro_json):
-    """
-    Lê a expressão regular a partir do ficheiro JSON.
-
-    Args:
-        ficheiro_json (str): O caminho para o ficheiro JSON contendo a expressão regular.
-
-    Returns:
-        dict: A expressão regular representada como um dicionário Python.
-    """
-    with open(ficheiro_json, 'r') as ficheiro:
-        return json.load(ficheiro)
-
 def converter_afnd(expressao_regular):
     """
-    Converte uma expressão regular num autômato finito não determinista (AFND) equivalente.
+    Converte uma expressão regular em um autômato finito não determinístico (AFND) equivalente.
 
     Args:
-        expressao_regular (dict): A expressão regular representada como um dicionário Python.
+        expressao_regular (str): A expressão regular fornecida como uma string.
 
     Returns:
         dict: O AFND equivalente representado como um dicionário Python.
@@ -81,7 +68,7 @@ def converter_afnd(expressao_regular):
 
     def kleene(afnd):
         """
-        Realiza a operação de fecho de Kleene num AFND.
+        Realiza a operação de fecho de Kleene em um AFND.
 
         Args:
             afnd (dict): O AFND representado como um dicionário Python.
@@ -117,7 +104,7 @@ def converter_afnd(expressao_regular):
 
     def converter_no(no):
         """
-        Função recursiva para converter um nó da árvore de expressão regular num AFND.
+        Função recursiva para converter um nó da árvore de expressão regular em um AFND.
 
         Args:
             no (dict): Um nó da árvore de expressão regular representado como um dicionário Python.
@@ -144,34 +131,35 @@ def converter_afnd(expressao_regular):
             # Aplica a operação correspondente ao operador aos AFNDs convertidos
             return operadores[no["op"]](*sub_afnds)
 
-    # Converte a expressão regular num AFND
+    # Converte a expressão regular em um AFND
     afnd = converter_no(expressao_regular)
 
     return afnd
 
-
 def main():
     # Configuração do parser de argumentos
     parser = argparse.ArgumentParser(description="Conversão de expressão regular para AFND")
-    parser.add_argument('ficheiro_json', metavar='ficheiro_json', type=str,
-                        help='O caminho para o ficheiro JSON contendo a expressão regular')
-    parser.add_argument('--output', metavar='ficheiro_afnd_json', type=str,
-                        help='O caminho para salvar o AFND em formato JSON')
+    parser.add_argument('er_file', metavar='er_file', type=str,
+                        help='O arquivo JSON contendo a expressão regular')
 
     # Parse dos argumentos da linha de comando
     args = parser.parse_args()
 
-    # Ler a expressão regular a partir do ficheiro JSON
-    expressao_regular = ler_expressao_regular(args.ficheiro_json)
+    # Ler a expressão regular do arquivo JSON
+    with open(args.er_file, 'r') as file:
+        expressao_regular = json.load(file)
 
-    # Converter a expressão regular num AFND
+    # Converter a expressão regular fornecida em um AFND
     afnd = converter_afnd(expressao_regular)
 
-    # Salvar o AFND em formato JSON
-    if args.output:
-        with open(args.output, 'w') as ficheiro_afnd:
-            json.dump(afnd, ficheiro_afnd, indent=4)
-            print(f"AFND salvo em '{args.output}'")
+    # Converter o alfabeto para uma lista antes de serializar para JSON
+    afnd["Sigma"] = list(afnd["Sigma"])
+
+    # Imprimir o AFND resultante
+    print(json.dumps(afnd, indent=4))
 
 if __name__ == "__main__":
     main()
+
+# Exemplo de uso (dentro da pasta 2-ERparaAFND):
+# python 2-ERparaAFND.py er.json
