@@ -5,7 +5,7 @@ import argparse
 def ConverterAFNDParaAFD(automatoAFND):
     #Função para obter conjunto de estados alcansaveis apartir de um conjunto de estado apartir de um simbolo
     def EncontrarConjuntoAlcancavel(estadoAtual, simbolo, transicoes):
-        conjuntoAlcancavel = set()
+        conjuntoAlcancavel = set() # Conjunto de estados alcansaveis
         for estado in estadoAtual:
             if estado in transicoes and simbolo in transicoes[estado]:
                 conjuntoAlcancavel.update(transicoes[estado][simbolo])
@@ -101,3 +101,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Testar com argparse
+# python .\3-AFNDtoAFD.py ..\automatoAFND.json      
