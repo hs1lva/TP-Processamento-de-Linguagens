@@ -3,40 +3,52 @@ import argparse
 
 
 def ConverterAFNDParaAFD(automatoAFND):
-    #Função para obter conjunto de estados alcansaveis apartir de um conjunto de estado apartir de um simbolo
+    #Função para obter conjunto de estados alcansaveis apartir de um conjunto de estado apartir de um simbolo -- del comment
     def EncontrarConjuntoAlcancavel(estadoAtual, simbolo, transicoes):
-        conjuntoAlcancavel = set() # Conjunto de estados alcansaveis
+        # Define o conjunto de estados alcansaveis apartir de um simbolo -- del comment
+
+        # Criamos um set, para garantir que não existem estados repetidos
+        conjuntoAlcancavel = set() 
         for estado in estadoAtual:
             if estado in transicoes and simbolo in transicoes[estado]:
                 conjuntoAlcancavel.update(transicoes[estado][simbolo])
-        return frozenset(conjuntoAlcancavel)
+        return frozenset(conjuntoAlcancavel) # Retorna um frozenset, que é imutavel
 
-    # Função para obter o fecho-ε de um conjunto de estados
+    # Função para obter o fecho-ε de um conjunto de estados -- del comment
     def FechoEpsilon(conjunto, transicoes):
-        fecho = set(conjunto)
-        pilha = list(conjunto)
-        while pilha:
-            estado = pilha.pop()
-            if estado in transicoes and 'ε' in transicoes[estado]:
+        fecho : set = set(conjunto)
+        pilha : list = list(conjunto)
+        while pilha: # Enquanto existir alguma coisa na pilha
+            estado = pilha.pop() # Guarda o ultimo estado e retira esse elemento da pilha
+            if estado in transicoes and 'ε' in transicoes[estado]: # Se o estado tiver transições com o simbolo 'ε'
                 for proximoEstado in transicoes[estado]['ε']:
                     if proximoEstado not in fecho:
                         fecho.add(proximoEstado)
                         pilha.append(proximoEstado)
-        return frozenset(fecho)
+        return frozenset(fecho) # Retorna um frozenset, que é imutavel
 
-    # Inicializações
+    # Inicializações -- del comment
+
     estadosAFND = set(automatoAFND['Q'])
     transicoesAFND = automatoAFND['delta']
     estadoInicialAFND = automatoAFND['q0']
     estadosFinaisAFND = set(automatoAFND['F'])
     estadosAFD = {}
     alfabetoAFD = [simbolo for simbolo in automatoAFND['V'] if simbolo != 'ε']
+
+    # alfabetoAFD = {}
+    # for simbolo in automatoAFND['V']:
+    #     if simbolo != 'ε':
+    #         alfabetoAFD[simbolo] = None
+
+
     transicoesAFD = {}
     pilha = []
    
-   #Obter o conjunto de estados inicial apartir do fecho epsilon
+   #Obter o conjunto de estados inicial apartir do fecho epsilon -- del comment
+   # Primeiro fazemos o fecho epsilon do estado inicial do AFND
     conjuntoEstadosInicial= FechoEpsilon({estadoInicialAFND}, transicoesAFND)
-    estadosAFD[f"N{len(estadosAFD)}"]=conjuntoEstadosInicial
+    estadosAFD[f"N{len(estadosAFD)}"]=conjuntoEstadosInicial # Adicionamos o conjunto de estados inicial ao AFD
     pilha.append(conjuntoEstadosInicial)
 
     while pilha:
@@ -57,7 +69,7 @@ def ConverterAFNDParaAFD(automatoAFND):
 
                 transicoesAFD.setdefault(conjuntoAtualID, {})[simbolo] = conjuntoAlcancavelID
 
-    # Identifica estados finais do AFD
+    # Identifica estados finais do AFD -- del comment
     estadosFinaisAFD = []
     for conjunto in estadosAFD.values():
         if conjunto.intersection(estadosFinaisAFND):
@@ -65,7 +77,7 @@ def ConverterAFNDParaAFD(automatoAFND):
                 if valor == conjunto:
                     estadosFinaisAFD.append(estadoAFD)
 
-    # Constrói o AFD
+    # Constrói o AFD -- del comment
     afd = {
         "Q": list(estadosAFD.keys()),
         "V": alfabetoAFD,
@@ -76,23 +88,31 @@ def ConverterAFNDParaAFD(automatoAFND):
     return afd
 
 
-def CarregarAutomatoAFND(caminhoAutomatoAFND):
+def CarregarAutomatoAFND(caminhoAutomatoAFND) -> dict:
     with open(caminhoAutomatoAFND, 'r', encoding='utf-8') as ficheiro:
         return json.load(ficheiro)
 
-def ImprimirAutomatoAFD(afd, caminhoAutomatoAFD):
+def gravar_automato(afd, caminhoAutomatoAFD) -> None:
     with open(caminhoAutomatoAFD, 'w' , encoding='utf-8') as ficheiro:
         json.dump(afd, ficheiro,ensure_ascii=False, indent=4)
 
 def main():
-    parser = argparse.ArgumentParser(description="Conversor de automato AFND para AFD")
-    parser.add_argument("ficheiroAutomatoAFND", help="Ficheiro JSON do automato AFND")
-    parser.add_argument("--output", "-o",metavar="ficheiroAutomatoAFD", help="Ficheiro de saida para o automato AFD", default="afd.json")
-    args = parser.parse_args()
+    # Configuração do parser de argumentos -- del comment
+    parser = argparse.ArgumentParser(description="Conversão de AFND para AFD")
+    parser.add_argument("ficheiro_json", 
+                        help="O caminho para o ficheiro JSON contendo a definição do AFND")
+    parser.add_argument('-output', metavar='palavra', type=str,
+                        help='Output JSON do AFD')
 
-    automatoAFND = CarregarAutomatoAFND(args.ficheiroAutomatoAFND)
-    automatoAFD = ConverterAFNDParaAFD(automatoAFND)
-    ImprimirAutomatoAFD(automatoAFD, args.output)
+    # Parse dos argumentos da linha de comando 
+    args : argparse.Namespace = parser.parse_args()
+
+    # Ler ficheiro JSON
+    automatoAFND :dict = CarregarAutomatoAFND(args.ficheiro_json)
+    # Converter AFND para AFD
+    automatoAFD : dict = ConverterAFNDParaAFD(automatoAFND)
+    # Gravar AFD em ficheiro JSON
+    gravar_automato(automatoAFD, args.output)
 
     #Para testar sem o argParse
     # afnd = ler_afnd("afnd_expressao2.json")

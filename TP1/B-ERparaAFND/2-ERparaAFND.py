@@ -123,15 +123,23 @@ def converter_afnd(expressao_regular):
 
     return afnd
 
+def gravar_automato(automato: dict, ficheiro_automato: str) -> None:
+    with open(ficheiro_automato, 'w') as ficheiro:
+        json.dump(automato, ficheiro, indent=4)
+
 def main():
 
     # Configuração do parser de argumentos
     parser = argparse.ArgumentParser(description="Conversão de expressão regular para AFND")
     parser.add_argument('er_file', metavar='er_file', type=str,
                         help='O ficheiro JSON com a expressão regular')
+    
+    parser.add_argument('-output', metavar='palavra', type=str,
+                        help='Output JSON do AFD')
 
+    
     # Parse dos argumentos da linha de comando
-    args = parser.parse_args()
+    args : argparse.Namespace = parser.parse_args()
 
     # Ler a expressão regular do ficheiro JSON
     with open(args.er_file, 'r') as file:
@@ -145,6 +153,10 @@ def main():
 
     # Imprimir o AFND resultante (json.dumps converte o dicionário Python para uma string JSON)
     print(json.dumps(afnd, indent=4)) # indent=4 para imprimir o JSON de uma forma mais legível
+
+    #Grava o AFND num ficheiro 
+    gravar_automato(afnd, args.output)
+    print(f"Ficheiro criado")
 
 if __name__ == "__main__":
     main()
