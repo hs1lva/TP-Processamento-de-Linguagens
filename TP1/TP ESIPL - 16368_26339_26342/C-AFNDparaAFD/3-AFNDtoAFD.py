@@ -1,25 +1,31 @@
 import json
 import argparse
 
-def ConverterAFNDParaAFD(automatoAFND):
-    # Função para obter conjunto de estados alcansaveis a partir de um conjunto de estado a partir de um símbolo
-    def EncontrarConjuntoAlcancavel(estadoAtual, simbolo, transicoes):
-        conjuntoAlcancavel = set() 
+# Recebe um conjunto de estados, um símbolo e um dicionário de transições, e retorna um conjunto de estados alcançáveis
+def AFNDtoAFD(automatoAFND : dict) -> dict:
+
+    def encontrar_conjunto(estadoAtual, simbolo, transicoes) -> frozenset:# 'Daqui, até onde posso ir?'
+        # Criamos um set, para garantir que não existem estados repetidos
+        conjuntoAlcancavel : set = set() 
         for estado in estadoAtual:
             if estado in transicoes and simbolo in transicoes[estado]:
                 conjuntoAlcancavel.update(transicoes[estado][simbolo])
-        return frozenset(conjuntoAlcancavel)
+        return frozenset(conjuntoAlcancavel)# Retorna um frozenset, que é imutavel
 
-    # Função para obter o fecho-ε de um conjunto de estados
-    def FechoEpsilon(conjunto, transicoes):
-        fecho = set(conjunto)
 
-        def expandir_fecho(estado):
-            if estado in transicoes and 'ε' in transicoes[estado]:
-                for proximoEstado in transicoes[estado]['ε']:
-                    if proximoEstado not in fecho:
-                        fecho.add(proximoEstado)
-                        expandir_fecho(proximoEstado)
+
+    # A função recebe um conjunto de estados, e um dicionário de transições, e retorna o fecho-ε desse conjunto de estados
+    def fecho_epsilon(conjunto : set, transicoes : dict) -> frozenset:
+        fecho : set = set(conjunto)
+
+        # Expande recursivamente o fecho épsilon de um estado, 
+        #adicionando estados alcançáveis através de transições épsilon a um dado conjunto.
+        def expandir_fecho(estado : str):
+            if estado in transicoes and 'ε' in transicoes[estado]: # Se o estado tiver transições com o simbolo 'ε'
+                for proximoEstado in transicoes[estado]['ε']: # Para cada estado alcançável por uma transição épsilon
+                    if proximoEstado not in fecho: # Se o estado ainda não foi visitado
+                        fecho.add(proximoEstado) # Adiciona o estado ao fecho
+                        expandir_fecho(proximoEstado) # Chama a função recursivamente
 
         for estado in conjunto:
             expandir_fecho(estado)
@@ -27,42 +33,46 @@ def ConverterAFNDParaAFD(automatoAFND):
         return frozenset(fecho)
 
 
-    # Função auxiliar para construir o AFD recursivamente
-    def ConstruirAFD(conjuntoEstadosAtual):
-        nonlocal estadosAFD, pilha, transicoesAFD
+    def construir_AFD(listaEstadosAtuais):
+        # Declara que as variáveis estão fora do escopo da função, mas podem ser modificadas
+        nonlocal estadosAFD, stack, transicoesAFD
         for simbolo in alfabetoAFD:
-            conjuntoEstadosAlcancavel = EncontrarConjuntoAlcancavel(conjuntoEstadosAtual, simbolo, transicoesAFND)
-            fechoEpsilonConjuntoEstadosAlcancavel = FechoEpsilon(conjuntoEstadosAlcancavel, transicoesAFND)
-            if fechoEpsilonConjuntoEstadosAlcancavel:
-                if fechoEpsilonConjuntoEstadosAlcancavel not in estadosAFD.values():
-                    estadosAFD[f"N{len(estadosAFD)}"] = fechoEpsilonConjuntoEstadosAlcancavel
-                    pilha.append(fechoEpsilonConjuntoEstadosAlcancavel)
-                for estadoAFD, valor in estadosAFD.items():
-                    if valor == conjuntoEstadosAtual:
-                        conjuntoAtualID = estadoAFD
-                    if valor == fechoEpsilonConjuntoEstadosAlcancavel:
-                        conjuntoAlcancavelID = estadoAFD
-                transicoesAFD.setdefault(conjuntoAtualID, {})[simbolo] = conjuntoAlcancavelID
-        if pilha:
-            ConstruirAFD(pilha.pop())
+            listaEstadosAlcancavel : frozenset = encontrar_conjunto(listaEstadosAtuais, simbolo, transicoesAFND)
+            listaFechoEpsilon : frozenset = fecho_epsilon(listaEstadosAlcancavel, transicoesAFND)
+            if listaFechoEpsilon:
+                if listaFechoEpsilon not in estadosAFD.values():
+                    estadosAFD[f"N{len(estadosAFD)}"] = listaFechoEpsilon # Adiciona o novo conjunto de estados ao AFD
+                    stack.append(listaFechoEpsilon)
+                for estado, valor in estadosAFD.items(): # Para cada estado nos estados AFD
+                    if valor == listaEstadosAtuais: # Verifica se o valor do conjunto atual é igual ao conjunto do estado
+                        conjuntoAtual = estado 
+                    if valor == listaFechoEpsilon: 
+                        conjuntoAlcancavel = estado
+                transicoesAFD.setdefault(conjuntoAtual, {})[simbolo] = conjuntoAlcancavel
 
-    # Inicializações
-    estadosAFND = set(automatoAFND['Q'])
-    transicoesAFND = automatoAFND['delta']
-    estadoInicialAFND = automatoAFND['q0']
-    estadosFinaisAFND = set(automatoAFND['F'])
-    estadosAFD = {}
-    alfabetoAFD = [simbolo for simbolo in automatoAFND['V'] if simbolo != 'ε']
-    transicoesAFD = {}
-    pilha = []
+        if stack:
+            construir_AFD(stack.pop())
 
-    conjuntoEstadosInicial = FechoEpsilon({estadoInicialAFND}, transicoesAFND)
-    estadosAFD[f"N{len(estadosAFD)}"] = conjuntoEstadosInicial
-    pilha.append(conjuntoEstadosInicial)
 
-    ConstruirAFD(pilha.pop())
+    transicoesAFND : dict = automatoAFND['delta']
+    estadoInicialAFND : dict = automatoAFND['q0']
+    estadosFinaisAFND : set = set(automatoAFND['F'])
+    estadosAFD : dict = {}
+    alfabetoAFD : list = [simbolo for simbolo in automatoAFND['V'] if simbolo != 'ε']
+    transicoesAFD : dict = {}
+    stack : list = []
 
-    estadosFinaisAFD = [estado for estado, conjunto in estadosAFD.items() if conjunto.intersection(estadosFinaisAFND)]
+    conjuntoEstadosInicial : frozenset = fecho_epsilon({estadoInicialAFND}, transicoesAFND)
+    estadosAFD[f"N{len(estadosAFD)}"] = conjuntoEstadosInicial # Cria o novo estado no AFD
+    stack.append(conjuntoEstadosInicial)
+
+    construir_AFD(stack.pop())
+    
+    estadosFinaisAFD = []
+    for estado, conjunto in estadosAFD.items():
+        if conjunto.intersection(estadosFinaisAFND):
+            estadosFinaisAFD.append(estado)
+
 
     afd = {
         "Q": list(estadosAFD.keys()),
@@ -73,12 +83,14 @@ def ConverterAFNDParaAFD(automatoAFND):
     }
     return afd
 
-def CarregarAutomatoAFND(caminhoAutomatoAFND) -> dict:
-    with open(caminhoAutomatoAFND, 'r', encoding='utf-8') as ficheiro:
+# Carrega um autómato de um ficheiro JSON
+def carrega_automato(ficheiro_automato : str) -> dict:
+    with open(ficheiro_automato, 'r', encoding='utf-8') as ficheiro:
         return json.load(ficheiro)
 
-def gravar_automato(afd, caminhoAutomatoAFD) -> None:
-    with open(caminhoAutomatoAFD, 'w' , encoding='utf-8') as ficheiro:
+# Grava um autómato num ficheiro JSON
+def gravar_automato(afd, ficheiro_automato : str) -> None:
+    with open(ficheiro_automato, 'w' , encoding='utf-8') as ficheiro:
         json.dump(afd, ficheiro, ensure_ascii=False, indent=4)
 
 def main():
@@ -88,14 +100,11 @@ def main():
     parser.add_argument('-output', metavar='palavra', type=str,
                         help='Output JSON do AFD')
 
-    args = parser.parse_args()
+    args : argparse.Namespace = parser.parse_args()
 
-    automatoAFND = CarregarAutomatoAFND(args.ficheiro_json)
-    automatoAFD = ConverterAFNDParaAFD(automatoAFND)
+    automatoAFND : dict = carrega_automato(args.ficheiro_json)
+    automatoAFD : dict = AFNDtoAFD(automatoAFND)
     gravar_automato(automatoAFD, args.output)
 
 if __name__ == "__main__":
     main()
-
-# Teste de execução no terminal:
-# python3 .\3-AFNDtoAFD.py .\automatoAFND.json -output afd_convertido.json
