@@ -79,6 +79,22 @@ def converter_afnd(expressao_regular):
 
         return novo_afnd
 
+    # Função para realizar a operação de transição vazia num AFND, para usar o trans (transição vazia) na expressão regular
+    # Args : afnd (dict) : O AFND como um dicionário Python
+    # Returns : dict : O AFND resultante da transição vazia
+    def transicao_vazia(afnd):
+        novo_estado_inicial = criar_estado()
+        novo_estado_final = criar_estado()
+        novo_delta = {"": [novo_estado_final]}
+        novo_afnd = {
+            "Q": [novo_estado_inicial, novo_estado_final] + afnd["Q"],
+            "Sigma": afnd["Sigma"],
+            "delta": {**novo_delta, **afnd["delta"]},
+            "q0": novo_estado_inicial,
+            "F": [novo_estado_final]
+        }
+        return novo_afnd
+    
     # Inicializa o contador de estados
     contador_estado = 0
 
@@ -86,7 +102,8 @@ def converter_afnd(expressao_regular):
     operadores = {
         "seq": concatenacao,
         "alt": uniao,
-        "kle": kleene
+        "kle": kleene,
+        "trans": transicao_vazia  # Adiciona a operação de transição vazia - função transicao_vazia
     }
 
     # Função recursiva para converter um estado da expressão regular num AFND
@@ -162,4 +179,4 @@ if __name__ == "__main__":
     main()
 
 # Exemplo de uso (dentro da pasta 2-ERparaAFND):
-# python 2-ERparaAFND.py er.json
+# python 2-ERparaAFND.py er.json -output output.json
