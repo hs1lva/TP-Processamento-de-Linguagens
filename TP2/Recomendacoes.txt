@@ -1,0 +1,36 @@
+Ficheiro “requirements.txt”
+
+-    Embora este trabalho não exigisse o uso de bibliotecas externas em Python, exceto o “graphviz” utilizado em aula, alguns grupos optaram por usar outras bibliotecas. Isso é positivo e demonstra proatividade. Quando utilizarem bibliotecas adicionais, é recomendável criar um ficheiro de requisitos especificando as bibliotecas utilizadas e suas respetivas versões.
+
+Shortcut para criar este ficheiro:
+
+“pip list > requirements.txt”
+
+
+Ficheiro “readme.md”
+
+-    É sempre útil existir um ficheiro que descreve numa frase todo o código que está no repositório e mostra como executar determinado programa p.e.: “python exA.py –-input afd.json –graphviz”
+
+
+
+Tipos de variáveis e comentários no código
+
+-    Apesar de Python não exigir a definição de tipos de variáveis, é uma boa prática mantê-los definidos, especialmente para os parâmetros de entrada/saída das funções. Comentários ao longo do código, especialmente os descritivos das funções, também são importantes
+
+
+
+Organização do código em ficheiros diferentes e funções diferentes
+
+-    Dada a complexidade deste trabalho, seria possível organizar os três exercícios em ficheiros Python separados.
+
+-    A função de exibição do grafo usando o graphviz, repetida nos exercícios A e B, poderia ser colocada em um ficheiro separado, como “utils.py”.
+
+-    Para cada exercício o workflow era semelhante
+
+1. Leitura do json
+
+2. Validações do input
+
+3.  Código de reconhecimento / conversão
+
+-    Cada uma destas etapas poderia estar organizada em cada função para melhor organização
