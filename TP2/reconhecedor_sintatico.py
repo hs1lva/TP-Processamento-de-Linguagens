@@ -5,6 +5,8 @@ from criar_codigo import BinOp, Num, Id, Assign, Escrever, String, Concatenate, 
 # Definindo a codificação como UTF-8
 # -*- coding: utf-8 -*-
 
+# Este reconhecedor sintatico serve para estruturar a forma como os tokens são organizados na linguagem FCA
+
 # Precedência e associatividade
 precedence = (
     ('left', 'AND', 'OR'),

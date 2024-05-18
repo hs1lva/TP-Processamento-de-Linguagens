@@ -4,6 +4,8 @@ import unicodedata # Para verificar se um caractere é uma letra ou número
 # Definindo a codificação como UTF-8
 # -*- coding: utf-8 -*-
 
+# Este reconhecedor léxico serve para identificar todos os caracteres (tokens) na linguagem FCA
+
 # Lista de tokens
 tokens = (
     'ID',               # Novo token para identificadores
@@ -72,43 +74,52 @@ def t_NUMBER(t):
     t.value = int(t.value)
     return t
 
-# Expressão regular para as palavras reservadas
+# Expressão regular para a palavra FUNCAO
 def t_FUNCAO(t):
     r'FUNCAO'
     return t
 
+# Expressão regular para a palavra FIM
 def t_FIM(t):
     r'FIM'
     return t
 
+# Expressão regular para a palavra LISTA
 def t_LISTA(t):
     r'LISTA'
     return t
 
+# Expressão regular para a palavra MAP
 def t_MAP(t):
     r'MAP'
     return t
 
+# Expressão regular para a palavra FOLD
 def t_FOLD(t):
     r'FOLD'
     return t
 
+# Expressão regular para o E
 def t_AND(t):
     r'E'
     return t
 
+# Expressão regular para o OU
 def t_OR(t):
     r'OU'
     return t
 
+# Expressão regular para o NÃO
 def t_NOT(t):
     r'NÃO'
     return t
 
+# Expressão regular para o BOOLEANO TRUE
 def t_TRUE(t):
     r'verdadeiro'
     return t
 
+# Expressão regular para o BOOLEANO FALSE
 def t_FALSE(t):
     r'falso'
     return t
