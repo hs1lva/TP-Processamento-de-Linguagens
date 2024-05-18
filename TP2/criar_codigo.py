@@ -49,8 +49,8 @@ class Escrever(Node): # Necessário para a função de escrita
 
     def evaluate(self, env):
         value = self.expr.evaluate(env)
-        if isinstance(value, String):
-            print(value.value)
+        if isinstance(value, str):  # Corrigido para verificar se o valor é uma string
+            print(value)
         else:
             print(value)
         return value

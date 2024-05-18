@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from reconhecedor_lexico import tokens  # Adicione esta linha
+from reconhecedor_lexico import lexer, tokens
 from criar_codigo import BinOp, Num, Id, Assign, Escrever, String, Concatenate
 
 # Definindo a codificação como UTF-8
@@ -72,6 +72,9 @@ def p_expression_concatenate(p):
     p[0] = Concatenate(p[1], p[3])
 
 def p_error(p):
-    print(f"Erro de sintaxe em {p.value}")
+    if p:
+        print(f"Erro de sintaxe em {p.value}")
+    else:
+        print("Erro de sintaxe: símbolo inesperado")
 
 parser = yacc.yacc()

@@ -1,5 +1,4 @@
 import ply.lex as lex
-import codecs # Importar a biblioteca codecs para descodificar strings
 
 # Definindo a codificação como UTF-8
 # -*- coding: utf-8 -*-
@@ -68,7 +67,7 @@ def t_QUESTION_MARK(t):
 # Expressão regular para o token STRING
 def t_STRING(t):
     r'"([^"\\]|\\.)*"'
-    t.value = codecs.decode(t.value[1:-1], 'unicode_escape')  # Remove as aspas e descodifica a string
+    t.value = t.value[1:-1]  # Remover as aspas
     return t
 
 # Expressão regular para o token CONCATENATE
