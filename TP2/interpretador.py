@@ -1,15 +1,8 @@
 import sys
-import chardet # Para detetar a codificação do ficheiro .fca
 from reconhecedor_sintatico import parser
 
-def detect_encoding(file_path):
-    with open(file_path, 'rb') as f:
-        rawdata = f.read()
-    return chardet.detect(rawdata)['encoding']
-
 def interpretar_ficheiro(file_path):
-    encoding = detect_encoding(file_path)
-    with open(file_path, 'r', encoding=encoding) as file:
+    with open(file_path, 'r', encoding='utf-8') as file:
         data = file.read()
         result = parser.parse(data)
 
@@ -21,6 +14,7 @@ if __name__ == "__main__":
     ficheiro_fca = sys.argv[1]
     interpretar_ficheiro(ficheiro_fca)
 
+
 # Como executar o programa:
 # 1º Passo: Abrir o terminal e ir para a pasta TP2
 # 2º Passo: Ativar o virtualenv que tem a biblioteca ply: venv/scripts/activate
@@ -28,4 +22,3 @@ if __name__ == "__main__":
 
 # O que foi instalado em venv?
 # - pip install ply
-# - pip install chardet
