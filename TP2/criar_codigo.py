@@ -1,3 +1,5 @@
+# Definindo a codificação como UTF-8
+# -*- coding: utf-8 -*-
 class Node: # Necessário para a função de nó abstrato
     def evaluate(self, env):
         pass
@@ -47,5 +49,25 @@ class Escrever(Node): # Necessário para a função de escrita
 
     def evaluate(self, env):
         value = self.expr.evaluate(env)
-        print(value)
+        if isinstance(value, String):
+            print(value.value)
+        else:
+            print(value)
         return value
+
+class String(Node):
+    def __init__(self, value):
+        self.value = value
+
+    def evaluate(self, env):
+        return self.value
+
+class Concatenate(Node):
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+    def evaluate(self, env):
+        left_val = self.left.evaluate(env)
+        right_val = self.right.evaluate(env)
+        return str(left_val) + str(right_val)

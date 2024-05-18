@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDEDIVIDE ENTRADA EQUALS ESCREVER EXCLAMATION_MARK ID LPAREN MINUS NUMBER PLUS QUESTION_MARK RPAREN SEMICOLON TIMESprogram : statement_liststatement_list : statement\n                      | statement_list statementstatement : assignment SEMICOLON\n                 | escrever SEMICOLON\n                 | entrada SEMICOLONassignment : ID EQUALS expressionescrever : ESCREVER expressionentrada : ENTRADA LPAREN expression RPARENexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expressionexpression : LPAREN expression RPARENexpression : NUMBERexpression : ID'
+_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDECONCATENATE DIVIDE ENTRADA EQUALS ESCREVER EXCLAMATION_MARK ID LPAREN MINUS NUMBER PLUS QUESTION_MARK RPAREN SEMICOLON STRING TIMESprogram : statement_liststatement_list : statement\n                      | statement_list statementstatement : assignment SEMICOLON\n                 | escrever SEMICOLON\n                 | entrada SEMICOLONassignment : ID EQUALS expressionescrever : ESCREVER expressionentrada : ENTRADA LPAREN expression RPARENexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expressionexpression : LPAREN expression RPARENexpression : NUMBERexpression : ID\n                  | ID EXCLAMATION_MARK\n                  | ID QUESTION_MARKexpression : STRINGexpression : expression CONCATENATE expression'
     
-_lr_action_items = {'ID':([0,2,3,8,10,11,12,13,14,16,19,21,22,23,24,],[7,7,-2,18,-3,-4,-5,-6,18,18,18,18,18,18,18,]),'ESCREVER':([0,2,3,10,11,12,13,],[8,8,-2,-3,-4,-5,-6,]),'ENTRADA':([0,2,3,10,11,12,13,],[9,9,-2,-3,-4,-5,-6,]),'$end':([1,2,3,10,11,12,13,],[0,-1,-2,-3,-4,-5,-6,]),'SEMICOLON':([4,5,6,15,17,18,20,27,28,29,30,31,32,],[11,12,13,-8,-15,-16,-7,-10,-11,-12,-13,-14,-9,]),'EQUALS':([7,],[14,]),'LPAREN':([8,9,14,16,19,21,22,23,24,],[16,19,16,16,16,16,16,16,16,]),'NUMBER':([8,14,16,19,21,22,23,24,],[17,17,17,17,17,17,17,17,]),'PLUS':([15,17,18,20,25,26,27,28,29,30,31,],[21,-15,-16,21,21,21,-10,-11,-12,-13,-14,]),'MINUS':([15,17,18,20,25,26,27,28,29,30,31,],[22,-15,-16,22,22,22,-10,-11,-12,-13,-14,]),'TIMES':([15,17,18,20,25,26,27,28,29,30,31,],[23,-15,-16,23,23,23,23,23,-12,-13,-14,]),'DIVIDE':([15,17,18,20,25,26,27,28,29,30,31,],[24,-15,-16,24,24,24,24,24,-12,-13,-14,]),'RPAREN':([17,18,25,26,27,28,29,30,31,],[-15,-16,31,32,-10,-11,-12,-13,-14,]),}
+_lr_action_items = {'ID':([0,2,3,8,10,11,12,13,14,16,20,22,23,24,25,26,],[7,7,-2,18,-3,-4,-5,-6,18,18,18,18,18,18,18,18,]),'ESCREVER':([0,2,3,10,11,12,13,],[8,8,-2,-3,-4,-5,-6,]),'ENTRADA':([0,2,3,10,11,12,13,],[9,9,-2,-3,-4,-5,-6,]),'$end':([1,2,3,10,11,12,13,],[0,-1,-2,-3,-4,-5,-6,]),'SEMICOLON':([4,5,6,15,17,18,19,21,28,29,31,32,33,34,35,36,37,],[11,12,13,-8,-15,-16,-19,-7,-17,-18,-10,-11,-12,-13,-20,-14,-9,]),'EQUALS':([7,],[14,]),'LPAREN':([8,9,14,16,20,22,23,24,25,26,],[16,20,16,16,16,16,16,16,16,16,]),'NUMBER':([8,14,16,20,22,23,24,25,26,],[17,17,17,17,17,17,17,17,17,]),'STRING':([8,14,16,20,22,23,24,25,26,],[19,19,19,19,19,19,19,19,19,]),'PLUS':([15,17,18,19,21,27,28,29,30,31,32,33,34,35,36,],[22,-15,-16,-19,22,22,-17,-18,22,-10,-11,-12,-13,22,-14,]),'MINUS':([15,17,18,19,21,27,28,29,30,31,32,33,34,35,36,],[23,-15,-16,-19,23,23,-17,-18,23,-10,-11,-12,-13,23,-14,]),'TIMES':([15,17,18,19,21,27,28,29,30,31,32,33,34,35,36,],[24,-15,-16,-19,24,24,-17,-18,24,24,24,-12,-13,24,-14,]),'DIVIDE':([15,17,18,19,21,27,28,29,30,31,32,33,34,35,36,],[25,-15,-16,-19,25,25,-17,-18,25,25,25,-12,-13,25,-14,]),'CONCATENATE':([15,17,18,19,21,27,28,29,30,31,32,33,34,35,36,],[26,-15,-16,-19,26,26,-17,-18,26,-10,-11,-12,-13,26,-14,]),'RPAREN':([17,18,19,27,28,29,30,31,32,33,34,35,36,],[-15,-16,-19,36,-17,-18,37,-10,-11,-12,-13,-20,-14,]),'EXCLAMATION_MARK':([18,],[28,]),'QUESTION_MARK':([18,],[29,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'statement_list':([0,],[2,]),'statement':([0,2,],[3,10,]),'assignment':([0,2,],[4,4,]),'escrever':([0,2,],[5,5,]),'entrada':([0,2,],[6,6,]),'expression':([8,14,16,19,21,22,23,24,],[15,20,25,26,27,28,29,30,]),}
+_lr_goto_items = {'program':([0,],[1,]),'statement_list':([0,],[2,]),'statement':([0,2,],[3,10,]),'assignment':([0,2,],[4,4,]),'escrever':([0,2,],[5,5,]),'entrada':([0,2,],[6,6,]),'expression':([8,14,16,20,22,23,24,25,26,],[15,21,27,30,31,32,33,34,35,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -43,4 +43,8 @@ _lr_productions = [
   ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','reconhecedor_sintatico.py',50),
   ('expression -> NUMBER','expression',1,'p_expression_number','reconhecedor_sintatico.py',54),
   ('expression -> ID','expression',1,'p_expression_id','reconhecedor_sintatico.py',58),
+  ('expression -> ID EXCLAMATION_MARK','expression',2,'p_expression_id','reconhecedor_sintatico.py',59),
+  ('expression -> ID QUESTION_MARK','expression',2,'p_expression_id','reconhecedor_sintatico.py',60),
+  ('expression -> STRING','expression',1,'p_expression_string','reconhecedor_sintatico.py',64),
+  ('expression -> expression CONCATENATE expression','expression',3,'p_expression_concatenate','reconhecedor_sintatico.py',68),
 ]

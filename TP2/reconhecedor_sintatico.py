@@ -1,6 +1,9 @@
 import ply.yacc as yacc
 from reconhecedor_lexico import tokens  # Adicione esta linha
-from criar_codigo import BinOp, Num, Id, Assign, Escrever
+from criar_codigo import BinOp, Num, Id, Assign, Escrever, String, Concatenate
+
+# Definindo a codificação como UTF-8
+# -*- coding: utf-8 -*-
 
 # Precedência e associatividade
 precedence = (
@@ -55,8 +58,18 @@ def p_expression_number(p):
     p[0] = Num(p[1])
 
 def p_expression_id(p):
-    '''expression : ID'''
+    '''expression : ID
+                  | ID EXCLAMATION_MARK
+                  | ID QUESTION_MARK'''
     p[0] = Id(p[1])
+
+def p_expression_string(p):
+    '''expression : STRING'''
+    p[0] = String(p[1])
+
+def p_expression_concatenate(p):
+    '''expression : expression CONCATENATE expression'''
+    p[0] = Concatenate(p[1], p[3])
 
 def p_error(p):
     print(f"Erro de sintaxe em {p.value}")

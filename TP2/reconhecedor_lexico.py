@@ -1,4 +1,8 @@
 import ply.lex as lex
+import codecs # Importar a biblioteca codecs para descodificar strings
+
+# Definindo a codificação como UTF-8
+# -*- coding: utf-8 -*-
 
 # Lista de tokens
 tokens = (
@@ -15,7 +19,9 @@ tokens = (
     'ESCREVER',         # Novo token para a função de escrita
     'ENTRADA',          # Novo token para a função de entrada
     'EXCLAMATION_MARK', # Novo token para o caractere '!'
-    'QUESTION_MARK'     # Novo token para o caractere '?'
+    'QUESTION_MARK',    # Novo token para o caractere '?'
+    'STRING',           # Novo token para strings
+    'CONCATENATE'       # Novo token para o operador de concatenação
 )
 
 # Regras de expressão regular para tokens simples
@@ -30,7 +36,7 @@ t_SEMICOLON = r';'
 
 # Expressão regular para o token ID
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'[a-zA-Z_][a-zA-Z_0-9?!\']*'
     return t
 
 # Expressão regular para o token NUMBER
@@ -57,6 +63,17 @@ def t_EXCLAMATION_MARK(t):
 # Expressão regular para o token QUESTION_MARK
 def t_QUESTION_MARK(t):
     r'\?'
+    return t
+
+# Expressão regular para o token STRING
+def t_STRING(t):
+    r'"([^"\\]|\\.)*"'
+    t.value = codecs.decode(t.value[1:-1], 'unicode_escape')  # Remove as aspas e descodifica a string
+    return t
+
+# Expressão regular para o token CONCATENATE
+def t_CONCATENATE(t):
+    r'<>'
     return t
 
 # Caracteres ignorados (espaços e tabulações)
