@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDECONCATENATE DIVIDE ENTRADA EQUALS ESCREVER EXCLAMATION_MARK ID LPAREN MINUS NUMBER PLUS QUESTION_MARK RPAREN SEMICOLON STRING TIMESprogram : statement_liststatement_list : statement\n                      | statement_list statementstatement : assignment SEMICOLON\n                 | escrever SEMICOLON\n                 | entrada SEMICOLONassignment : ID EQUALS expressionescrever : ESCREVER expressionentrada : ENTRADA LPAREN expression RPARENexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expressionexpression : LPAREN expression RPARENexpression : NUMBERexpression : ID\n                  | ID EXCLAMATION_MARK\n                  | ID QUESTION_MARKexpression : STRINGexpression : expression CONCATENATE expression'
+_lr_signature = 'leftANDORleftPLUSMINUSleftTIMESDIVIDErightNOTAND COMMA CONCATENATE DIVIDE ENTRADA EQUALS ESCREVER EXCLAMATION_MARK FALSE FIM FOLD FUNCAO ID LISTA LPAREN MAP MINUS NOT NUMBER OR PLUS QUESTION_MARK RPAREN SEMICOLON STRING TIMES TRUEprogram : statement_liststatement_list : statement\n                      | statement_list statementstatement : assignment SEMICOLON\n                 | escrever SEMICOLON\n                 | entrada SEMICOLON\n                 | funcao\n                 | lista\n                 | map\n                 | foldassignment : ID EQUALS expressionescrever : ESCREVER expressionentrada : ENTRADA LPAREN expression RPARENfuncao : FUNCAO ID LPAREN param_list RPAREN statement_list FIMparam_list : ID\n                  | param_list COMMA ID\n                  | emptylista : LISTA LPAREN expression_list RPARENexpression_list : expression\n                       | expression_list COMMA expressionmap : MAP LPAREN expression COMMA expression RPARENfold : FOLD LPAREN expression COMMA expression COMMA expression RPARENexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expression\n                  | expression AND expression\n                  | expression OR expressionexpression : NOT expressionexpression : LPAREN expression RPARENexpression : NUMBERexpression : ID\n                  | ID EXCLAMATION_MARK\n                  | ID QUESTION_MARKexpression : STRINGexpression : expression CONCATENATE expressionexpression : TRUE\n                  | FALSEempty :'
     
-_lr_action_items = {'ID':([0,2,3,8,10,11,12,13,14,16,20,22,23,24,25,26,],[7,7,-2,18,-3,-4,-5,-6,18,18,18,18,18,18,18,18,]),'ESCREVER':([0,2,3,10,11,12,13,],[8,8,-2,-3,-4,-5,-6,]),'ENTRADA':([0,2,3,10,11,12,13,],[9,9,-2,-3,-4,-5,-6,]),'$end':([1,2,3,10,11,12,13,],[0,-1,-2,-3,-4,-5,-6,]),'SEMICOLON':([4,5,6,15,17,18,19,21,28,29,31,32,33,34,35,36,37,],[11,12,13,-8,-15,-16,-19,-7,-17,-18,-10,-11,-12,-13,-20,-14,-9,]),'EQUALS':([7,],[14,]),'LPAREN':([8,9,14,16,20,22,23,24,25,26,],[16,20,16,16,16,16,16,16,16,16,]),'NUMBER':([8,14,16,20,22,23,24,25,26,],[17,17,17,17,17,17,17,17,17,]),'STRING':([8,14,16,20,22,23,24,25,26,],[19,19,19,19,19,19,19,19,19,]),'PLUS':([15,17,18,19,21,27,28,29,30,31,32,33,34,35,36,],[22,-15,-16,-19,22,22,-17,-18,22,-10,-11,-12,-13,22,-14,]),'MINUS':([15,17,18,19,21,27,28,29,30,31,32,33,34,35,36,],[23,-15,-16,-19,23,23,-17,-18,23,-10,-11,-12,-13,23,-14,]),'TIMES':([15,17,18,19,21,27,28,29,30,31,32,33,34,35,36,],[24,-15,-16,-19,24,24,-17,-18,24,24,24,-12,-13,24,-14,]),'DIVIDE':([15,17,18,19,21,27,28,29,30,31,32,33,34,35,36,],[25,-15,-16,-19,25,25,-17,-18,25,25,25,-12,-13,25,-14,]),'CONCATENATE':([15,17,18,19,21,27,28,29,30,31,32,33,34,35,36,],[26,-15,-16,-19,26,26,-17,-18,26,-10,-11,-12,-13,26,-14,]),'RPAREN':([17,18,19,27,28,29,30,31,32,33,34,35,36,],[-15,-16,-19,36,-17,-18,37,-10,-11,-12,-13,-20,-14,]),'EXCLAMATION_MARK':([18,],[28,]),'QUESTION_MARK':([18,],[29,]),}
+_lr_action_items = {'ID':([0,2,3,7,8,9,10,12,14,18,19,20,21,22,24,25,31,33,34,35,37,38,39,40,41,42,43,49,66,67,68,69,70,71,75,77,78,79,81,],[11,11,-2,-7,-8,-9,-10,27,32,-3,-4,-5,-6,27,27,27,27,27,27,27,27,27,27,27,27,27,27,63,-18,27,27,27,11,76,11,-21,27,-14,-22,]),'ESCREVER':([0,2,3,7,8,9,10,18,19,20,21,66,70,75,77,79,81,],[12,12,-2,-7,-8,-9,-10,-3,-4,-5,-6,-18,12,12,-21,-14,-22,]),'ENTRADA':([0,2,3,7,8,9,10,18,19,20,21,66,70,75,77,79,81,],[13,13,-2,-7,-8,-9,-10,-3,-4,-5,-6,-18,13,13,-21,-14,-22,]),'FUNCAO':([0,2,3,7,8,9,10,18,19,20,21,66,70,75,77,79,81,],[14,14,-2,-7,-8,-9,-10,-3,-4,-5,-6,-18,14,14,-21,-14,-22,]),'LISTA':([0,2,3,7,8,9,10,18,19,20,21,66,70,75,77,79,81,],[15,15,-2,-7,-8,-9,-10,-3,-4,-5,-6,-18,15,15,-21,-14,-22,]),'MAP':([0,2,3,7,8,9,10,18,19,20,21,66,70,75,77,79,81,],[16,16,-2,-7,-8,-9,-10,-3,-4,-5,-6,-18,16,16,-21,-14,-22,]),'FOLD':([0,2,3,7,8,9,10,18,19,20,21,66,70,75,77,79,81,],[17,17,-2,-7,-8,-9,-10,-3,-4,-5,-6,-18,17,17,-21,-14,-22,]),'$end':([1,2,3,7,8,9,10,18,19,20,21,66,77,79,81,],[0,-1,-2,-7,-8,-9,-10,-3,-4,-5,-6,-18,-21,-14,-22,]),'FIM':([3,7,8,9,10,18,19,20,21,66,75,77,79,81,],[-2,-7,-8,-9,-10,-3,-4,-5,-6,-18,79,-21,-14,-22,]),'SEMICOLON':([4,5,6,23,26,27,28,29,30,36,44,46,47,54,55,56,57,58,59,60,61,62,],[19,20,21,-12,-31,-32,-35,-37,-38,-11,-29,-33,-34,-23,-24,-25,-26,-27,-28,-36,-30,-13,]),'EQUALS':([11,],[22,]),'NOT':([12,22,24,25,31,33,34,35,37,38,39,40,41,42,43,67,68,69,78,],[24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,]),'LPAREN':([12,13,15,16,17,22,24,25,31,32,33,34,35,37,38,39,40,41,42,43,67,68,69,78,],[25,31,33,34,35,25,25,25,25,49,25,25,25,25,25,25,25,25,25,25,25,25,25,25,]),'NUMBER':([12,22,24,25,31,33,34,35,37,38,39,40,41,42,43,67,68,69,78,],[26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,]),'STRING':([12,22,24,25,31,33,34,35,37,38,39,40,41,42,43,67,68,69,78,],[28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,]),'TRUE':([12,22,24,25,31,33,34,35,37,38,39,40,41,42,43,67,68,69,78,],[29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,]),'FALSE':([12,22,24,25,31,33,34,35,37,38,39,40,41,42,43,67,68,69,78,],[30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,]),'PLUS':([23,26,27,28,29,30,36,44,45,46,47,48,51,52,53,54,55,56,57,58,59,60,61,72,73,74,80,],[37,-31,-32,-35,-37,-38,37,-29,37,-33,-34,37,37,37,37,-23,-24,-25,-26,37,37,37,-30,37,37,37,37,]),'MINUS':([23,26,27,28,29,30,36,44,45,46,47,48,51,52,53,54,55,56,57,58,59,60,61,72,73,74,80,],[38,-31,-32,-35,-37,-38,38,-29,38,-33,-34,38,38,38,38,-23,-24,-25,-26,38,38,38,-30,38,38,38,38,]),'TIMES':([23,26,27,28,29,30,36,44,45,46,47,48,51,52,53,54,55,56,57,58,59,60,61,72,73,74,80,],[39,-31,-32,-35,-37,-38,39,-29,39,-33,-34,39,39,39,39,39,39,-25,-26,39,39,39,-30,39,39,39,39,]),'DIVIDE':([23,26,27,28,29,30,36,44,45,46,47,48,51,52,53,54,55,56,57,58,59,60,61,72,73,74,80,],[40,-31,-32,-35,-37,-38,40,-29,40,-33,-34,40,40,40,40,40,40,-25,-26,40,40,40,-30,40,40,40,40,]),'AND':([23,26,27,28,29,30,36,44,45,46,47,48,51,52,53,54,55,56,57,58,59,60,61,72,73,74,80,],[41,-31,-32,-35,-37,-38,41,-29,41,-33,-34,41,41,41,41,-23,-24,-25,-26,-27,-28,41,-30,41,41,41,41,]),'OR':([23,26,27,28,29,30,36,44,45,46,47,48,51,52,53,54,55,56,57,58,59,60,61,72,73,74,80,],[42,-31,-32,-35,-37,-38,42,-29,42,-33,-34,42,42,42,42,-23,-24,-25,-26,-27,-28,42,-30,42,42,42,42,]),'CONCATENATE':([23,26,27,28,29,30,36,44,45,46,47,48,51,52,53,54,55,56,57,58,59,60,61,72,73,74,80,],[43,-31,-32,-35,-37,-38,43,-29,43,-33,-34,43,43,43,43,-23,-24,-25,-26,-27,-28,43,-30,43,43,43,43,]),'RPAREN':([26,27,28,29,30,44,45,46,47,48,49,50,51,54,55,56,57,58,59,60,61,63,64,65,72,73,76,80,],[-31,-32,-35,-37,-38,-29,61,-33,-34,62,-39,66,-19,-23,-24,-25,-26,-27,-28,-36,-30,-15,70,-17,-20,77,-16,81,]),'COMMA':([26,27,28,29,30,44,46,47,49,50,51,52,53,54,55,56,57,58,59,60,61,63,64,65,72,74,76,],[-31,-32,-35,-37,-38,-29,-33,-34,-39,67,-19,68,69,-23,-24,-25,-26,-27,-28,-36,-30,-15,71,-17,-20,78,-16,]),'EXCLAMATION_MARK':([27,],[46,]),'QUESTION_MARK':([27,],[47,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'statement_list':([0,],[2,]),'statement':([0,2,],[3,10,]),'assignment':([0,2,],[4,4,]),'escrever':([0,2,],[5,5,]),'entrada':([0,2,],[6,6,]),'expression':([8,14,16,20,22,23,24,25,26,],[15,21,27,30,31,32,33,34,35,]),}
+_lr_goto_items = {'program':([0,],[1,]),'statement_list':([0,70,],[2,75,]),'statement':([0,2,70,75,],[3,18,3,18,]),'assignment':([0,2,70,75,],[4,4,4,4,]),'escrever':([0,2,70,75,],[5,5,5,5,]),'entrada':([0,2,70,75,],[6,6,6,6,]),'funcao':([0,2,70,75,],[7,7,7,7,]),'lista':([0,2,70,75,],[8,8,8,8,]),'map':([0,2,70,75,],[9,9,9,9,]),'fold':([0,2,70,75,],[10,10,10,10,]),'expression':([12,22,24,25,31,33,34,35,37,38,39,40,41,42,43,67,68,69,78,],[23,36,44,45,48,51,52,53,54,55,56,57,58,59,60,72,73,74,80,]),'expression_list':([33,],[50,]),'param_list':([49,],[64,]),'empty':([49,],[65,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,24 +27,43 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> statement_list','program',1,'p_program','reconhecedor_sintatico.py',15),
-  ('statement_list -> statement','statement_list',1,'p_statement_list','reconhecedor_sintatico.py',19),
-  ('statement_list -> statement_list statement','statement_list',2,'p_statement_list','reconhecedor_sintatico.py',20),
-  ('statement -> assignment SEMICOLON','statement',2,'p_statement','reconhecedor_sintatico.py',27),
-  ('statement -> escrever SEMICOLON','statement',2,'p_statement','reconhecedor_sintatico.py',28),
-  ('statement -> entrada SEMICOLON','statement',2,'p_statement','reconhecedor_sintatico.py',29),
-  ('assignment -> ID EQUALS expression','assignment',3,'p_assignment','reconhecedor_sintatico.py',33),
-  ('escrever -> ESCREVER expression','escrever',2,'p_escrever','reconhecedor_sintatico.py',37),
-  ('entrada -> ENTRADA LPAREN expression RPAREN','entrada',4,'p_entrada','reconhecedor_sintatico.py',41),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','reconhecedor_sintatico.py',46),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','reconhecedor_sintatico.py',47),
-  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','reconhecedor_sintatico.py',48),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','reconhecedor_sintatico.py',49),
-  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','reconhecedor_sintatico.py',53),
-  ('expression -> NUMBER','expression',1,'p_expression_number','reconhecedor_sintatico.py',57),
-  ('expression -> ID','expression',1,'p_expression_id','reconhecedor_sintatico.py',61),
-  ('expression -> ID EXCLAMATION_MARK','expression',2,'p_expression_id','reconhecedor_sintatico.py',62),
-  ('expression -> ID QUESTION_MARK','expression',2,'p_expression_id','reconhecedor_sintatico.py',63),
-  ('expression -> STRING','expression',1,'p_expression_string','reconhecedor_sintatico.py',67),
-  ('expression -> expression CONCATENATE expression','expression',3,'p_expression_concatenate','reconhecedor_sintatico.py',71),
+  ('program -> statement_list','program',1,'p_program','reconhecedor_sintatico.py',17),
+  ('statement_list -> statement','statement_list',1,'p_statement_list','reconhecedor_sintatico.py',21),
+  ('statement_list -> statement_list statement','statement_list',2,'p_statement_list','reconhecedor_sintatico.py',22),
+  ('statement -> assignment SEMICOLON','statement',2,'p_statement','reconhecedor_sintatico.py',29),
+  ('statement -> escrever SEMICOLON','statement',2,'p_statement','reconhecedor_sintatico.py',30),
+  ('statement -> entrada SEMICOLON','statement',2,'p_statement','reconhecedor_sintatico.py',31),
+  ('statement -> funcao','statement',1,'p_statement','reconhecedor_sintatico.py',32),
+  ('statement -> lista','statement',1,'p_statement','reconhecedor_sintatico.py',33),
+  ('statement -> map','statement',1,'p_statement','reconhecedor_sintatico.py',34),
+  ('statement -> fold','statement',1,'p_statement','reconhecedor_sintatico.py',35),
+  ('assignment -> ID EQUALS expression','assignment',3,'p_assignment','reconhecedor_sintatico.py',39),
+  ('escrever -> ESCREVER expression','escrever',2,'p_escrever','reconhecedor_sintatico.py',43),
+  ('entrada -> ENTRADA LPAREN expression RPAREN','entrada',4,'p_entrada','reconhecedor_sintatico.py',47),
+  ('funcao -> FUNCAO ID LPAREN param_list RPAREN statement_list FIM','funcao',7,'p_funcao','reconhecedor_sintatico.py',51),
+  ('param_list -> ID','param_list',1,'p_param_list','reconhecedor_sintatico.py',55),
+  ('param_list -> param_list COMMA ID','param_list',3,'p_param_list','reconhecedor_sintatico.py',56),
+  ('param_list -> empty','param_list',1,'p_param_list','reconhecedor_sintatico.py',57),
+  ('lista -> LISTA LPAREN expression_list RPAREN','lista',4,'p_lista','reconhecedor_sintatico.py',64),
+  ('expression_list -> expression','expression_list',1,'p_expression_list','reconhecedor_sintatico.py',68),
+  ('expression_list -> expression_list COMMA expression','expression_list',3,'p_expression_list','reconhecedor_sintatico.py',69),
+  ('map -> MAP LPAREN expression COMMA expression RPAREN','map',6,'p_map','reconhecedor_sintatico.py',76),
+  ('fold -> FOLD LPAREN expression COMMA expression COMMA expression RPAREN','fold',8,'p_fold','reconhecedor_sintatico.py',80),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','reconhecedor_sintatico.py',84),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','reconhecedor_sintatico.py',85),
+  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','reconhecedor_sintatico.py',86),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','reconhecedor_sintatico.py',87),
+  ('expression -> expression AND expression','expression',3,'p_expression_binop','reconhecedor_sintatico.py',88),
+  ('expression -> expression OR expression','expression',3,'p_expression_binop','reconhecedor_sintatico.py',89),
+  ('expression -> NOT expression','expression',2,'p_expression_not','reconhecedor_sintatico.py',93),
+  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','reconhecedor_sintatico.py',97),
+  ('expression -> NUMBER','expression',1,'p_expression_number','reconhecedor_sintatico.py',101),
+  ('expression -> ID','expression',1,'p_expression_id','reconhecedor_sintatico.py',105),
+  ('expression -> ID EXCLAMATION_MARK','expression',2,'p_expression_id','reconhecedor_sintatico.py',106),
+  ('expression -> ID QUESTION_MARK','expression',2,'p_expression_id','reconhecedor_sintatico.py',107),
+  ('expression -> STRING','expression',1,'p_expression_string','reconhecedor_sintatico.py',111),
+  ('expression -> expression CONCATENATE expression','expression',3,'p_expression_concatenate','reconhecedor_sintatico.py',115),
+  ('expression -> TRUE','expression',1,'p_expression_bool','reconhecedor_sintatico.py',119),
+  ('expression -> FALSE','expression',1,'p_expression_bool','reconhecedor_sintatico.py',120),
+  ('empty -> <empty>','empty',0,'p_empty','reconhecedor_sintatico.py',124),
 ]
