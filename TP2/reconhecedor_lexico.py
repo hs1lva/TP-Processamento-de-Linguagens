@@ -86,7 +86,7 @@ def t_newline(t):
 
 # Função de erro para caracteres desconhecidos
 def t_error(t):
-    print(f"Erro: Caracter desconhecido '{t.value[0]}' na linha {t.lineno}, coluna {t.lexpos + 1}")
+    print(f"Erro: Caractere desconhecido '{t.value[0]}' na linha {t.lineno}, coluna {t.lexpos + 1}")
     t.lexer.skip(1)
 
 # Construa o analisador léxico
